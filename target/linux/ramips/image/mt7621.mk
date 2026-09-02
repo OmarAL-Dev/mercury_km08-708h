@@ -2336,6 +2336,24 @@ define Device/mts_wg430223
 endef
 TARGET_DEVICES += mts_wg430223
 
+define Device/mercury_km08-708h
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  PAGESIZE := 2048
+  BLOCKSIZE := 128k
+  KERNEL_SIZE := 4096k
+  IMAGE_SIZE := 115712k
+  DEVICE_VENDOR := Mercury
+  DEVICE_MODEL := KM08-708H
+  UBINIZE_OPTS := -E 5
+  IMAGES += factory.bin sysupgrade.bin
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+  IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-ubi | check-size
+  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-mt7615e kmod-usb3 uboot-envtools
+  SUPPORTED_DEVICES := mercury,km08-708h mercury,km08_708h
+endef
+TARGET_DEVICES += mercury_km08-708h
+
 define Device/netgear_eax12
   $(Device/nand)
   DEVICE_VENDOR := NETGEAR
